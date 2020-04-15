@@ -1,6 +1,6 @@
 {
   "name": "productive-box",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Are you an early 🐤 or a night 🦉? Let's check out in gist",
   "author": "maxam2017",
   "license": "MIT",
@@ -9,9 +9,13 @@
     "build": "tsc index.ts --outDir dist",
     "lint": "eslint . --ext .ts"
   },
+  "dependencies": {
+    "@octokit/rest": "^17.2.1"
+  },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/node": "^13.11.1",
+    "@types/node-fetch": "^2.5.6",
     "@typescript-eslint/eslint-plugin": "^2.28.0",
     "@typescript-eslint/parser": "^2.28.0",
     "eslint": "^6.8.0",
