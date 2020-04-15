@@ -1,0 +1,10 @@
+# node modules
+node_modules/
+
+# log
+*.log
+*.swp
+.DS_Store
+
+# configuration
+.env
