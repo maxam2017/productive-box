@@ -19,7 +19,9 @@
 
 ### Prep work
 1. Create a new public GitHub Gist (https://gist.github.com/)
-2. Create a token with the `gist` scope and copy it. (https://github.com/settings/tokens/new)
+2. Create a token with the `gist` and `repo` scope and copy it. (https://github.com/settings/tokens/new)
+   > enable `repo` scope seems **DANGEROUS**<br/>
+   > but this GitHub Action only accesses your commit timestamp in repository you contributed.
 
 ### Project setup
 
