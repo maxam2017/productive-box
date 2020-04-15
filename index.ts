@@ -51,7 +51,7 @@ interface IRepo {
   committedTimeResponseMap.forEach(committedTimeResponse => {
     committedTimeResponse?.data?.repository?.ref?.target?.history?.edges.forEach(edge => {
       const committedDate = edge?.node?.committedDate;
-      const timeString = new Date(committedDate).toLocaleTimeString([ 'zh-TW' ], { hour12: false });
+      const timeString = new Date(committedDate).toLocaleTimeString([ process.env.LOCALE, 'en-US' ], { hour12: false });
       const hour = +(timeString.split(':')[0]);
 
       /**

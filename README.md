@@ -24,11 +24,11 @@
 ### Project setup
 
 1. Fork this repo
-2. Edit the [environment variable](https://github.com/maxam2017/productive-box/blob/master/.github/workflows/schedule.yml#L16-L17) in `.github/workflows/schedule.yml`:
+2. Edit the [environment variable](https://github.com/maxam2017/productive-box/blob/master/.github/workflows/schedule.yml#L17-L18) in `.github/workflows/schedule.yml`:
 
    - **GIST_ID:** The ID portion from your gist url: `https://gist.github.com/maxam2017/`**`9842e074b8ee46aef76fd0d493bae0ed`**.
+   - **LOCALE:** The locale of your country, eg. `zh-TW` for Taiwan, `en-US` for America, etc.
 
 3. Go to the repo **Settings > Secrets**
 4. Add the following environment variables:
    - **GH_TOKEN:** The GitHub token generated above.
-
