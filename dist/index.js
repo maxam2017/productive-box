@@ -118,7 +118,8 @@ dotenv_1.config({ path: path_1.resolve(__dirname, '.env') });
                 lines = oneDay.reduce(function (prev, cur) {
                     var percent = cur.commits / sum * 100;
                     var line = [
-                        ("" + cur.label).padEnd(11),
+                        ("" + cur.label).padEnd(9),
+                        (cur.commits.toString().padStart(5) + " commits").padEnd(14),
                         generateBarChart_1["default"](percent, 21),
                         String(percent.toFixed(1)).padStart(5) + '%',
                     ];

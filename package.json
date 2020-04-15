@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .ts"
   },
   "dependencies": {
-    "@octokit/rest": "^17.2.1"
+    "@octokit/rest": "^17.2.1",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
