@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node index.ts",
-    "build": "tsc index.ts --outDir dist && ncc build dist/index.js --minify",
+    "build": "tsc index.ts --outDir dist && ncc build dist/index.js --minify && find dist/ -type f -not -name 'index.js' -delete",
     "lint": "eslint . --ext .ts"
   },
   "dependencies": {
