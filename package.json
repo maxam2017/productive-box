@@ -5,9 +5,9 @@
   "author": "maxam2017",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node index.ts",
-    "build": "tsc index.ts --outDir dist && ncc build dist/index.js --minify && find dist/ -type f -not -name 'index.js' -delete",
-    "lint": "eslint . --ext .ts"
+    "dev": "ts-node src/index.ts",
+    "build": "tsc src/index.ts --outDir dist && ncc build dist/index.js --minify && find dist/ -type f -not -name 'index.js' -delete",
+    "lint": "eslint src/ --ext .ts"
   },
   "dependencies": {
     "@octokit/rest": "^17.2.1",

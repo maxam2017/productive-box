@@ -8,7 +8,7 @@ import { userInfoQuery, createContributedRepoQuery, createCommittedDateQuery } f
 /**
  * get environment variable
  */
-config({ path: resolve(__dirname, '.env') });
+config({ path: resolve(__dirname, '../.env') });
 
 interface IRepo {
   name: string;
