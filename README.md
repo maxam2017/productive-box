@@ -45,3 +45,4 @@ This project uses GitHub graphQL API to get the commit histories and write into 
 3. Go to the repo **Settings > Secrets**
 4. Add the following environment variables:
    - **GH_TOKEN:** The GitHub token generated above.
+5. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
