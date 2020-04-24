@@ -89,6 +89,8 @@ interface IRepo {
     return [...prev, line.join(' ')];
   }, []);
 
+  lines.push("[powered by productive-box](https://github.com/maxam2017/productive-box)");
+
   /**
    * Finally, write into gist
    */
