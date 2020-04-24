@@ -30,19 +30,20 @@ This project uses GitHub graphQL API to get the commit histories and write into 
 
 ### Prep work
 1. Create a new public GitHub Gist (https://gist.github.com/)
-2. Create a token with the `gist` and `repo` scope and copy it. (https://github.com/settings/tokens/new)
+1. Create a token with the `gist` and `repo` scope and copy it. (https://github.com/settings/tokens/new)
    > enable `repo` scope seems **DANGEROUS**<br/>
    > but this GitHub Action only accesses your commit timestamp in repository you contributed.
 
 ### Project setup
 
 1. Fork this repo
-2. Edit the [environment variable](https://github.com/maxam2017/productive-box/blob/master/.github/workflows/schedule.yml#L17-L18) in `.github/workflows/schedule.yml`:
+1. Open the "Actions" tab of your fork and click the "enable" button
+1. Edit the [environment variable](https://github.com/maxam2017/productive-box/blob/master/.github/workflows/schedule.yml#L17-L18) in `.github/workflows/schedule.yml`:
 
    - **GIST_ID:** The ID portion from your gist url: `https://gist.github.com/maxam2017/`**`9842e074b8ee46aef76fd0d493bae0ed`**.
    - **LOCALE:** The locale of your country, eg. `zh-TW` for Taiwan, `en-US` for America, etc.
 
-3. Go to the repo **Settings > Secrets**
-4. Add the following environment variables:
+1. Go to the repo **Settings > Secrets**
+1. Add the following environment variables:
    - **GH_TOKEN:** The GitHub token generated above.
-5. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
+1. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
