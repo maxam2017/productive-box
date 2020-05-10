@@ -22,6 +22,21 @@ export const createContributedRepoQuery = (username: string) => `
   }
 `;
 
+export const createOwnedRepoQuery = (username: string) => `
+  query {
+    user(login: "${username}") {
+      repositories(last: 100, ownerAffiliations: OWNER, isFork: false) {
+        nodes {
+          name
+          owner {
+            login
+	  }
+	}
+      }
+    }
+  }
+`;
+
 export const createCommittedDateQuery = (id: string, name: string, owner: string) => `
   query {
     repository(owner: "${owner}", name: "${name}") {

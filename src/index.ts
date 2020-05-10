@@ -4,7 +4,12 @@ import { Octokit } from '@octokit/rest';
 
 import githubQuery from './githubQuery';
 import generateBarChart from './generateBarChart';
-import { userInfoQuery, createContributedRepoQuery, createCommittedDateQuery } from './queries';
+import {
+  userInfoQuery,
+  createContributedRepoQuery,
+  createOwnedRepoQuery,
+  createCommittedDateQuery,
+} from './queries';
 /**
  * get environment variable
  */
@@ -27,12 +32,21 @@ interface IRepo {
    * Second, get contributed repos
    */
   const contributedRepoQuery = createContributedRepoQuery(username);
-  const repoResponse = await githubQuery(contributedRepoQuery)
+  const ownedRepoQuery = createOwnedRepoQuery(username);
+
+  let repoResponse = await githubQuery(contributedRepoQuery)
     .catch(error => console.error(`Unable to get the contributed repo\n${error}`));
   const repos: IRepo[] = repoResponse?.data?.user?.repositoriesContributedTo?.nodes.map(repoInfo => ({
     name: repoInfo?.name,
     owner: repoInfo?.owner?.login,
   }));
+
+  repoResponse = await githubQuery(ownedRepoQuery)
+    .catch(error => console.error(`Unable to get the owned repo\n${error}`));
+  repos.push(...repoResponse?.data?.user?.repositories?.nodes.map(repoInfo => ({
+    name: repoInfo?.name,
+    owner: repoInfo?.owner?.login,
+  })));
 
   /**
    * Third, get commit time and parse into commit-time/hour diagram
@@ -51,7 +65,7 @@ interface IRepo {
   committedTimeResponseMap.forEach(committedTimeResponse => {
     committedTimeResponse?.data?.repository?.ref?.target?.history?.edges.forEach(edge => {
       const committedDate = edge?.node?.committedDate;
-      const timeString = new Date(committedDate).toLocaleTimeString([ process.env.LOCALE, 'en-US' ], { hour12: false });
+      const timeString = new Date(committedDate).toLocaleTimeString('en-US', { hour12: false, timeZone: process.env.TIMEZONE });
       const hour = +(timeString.split(':')[0]);
 
       /**
