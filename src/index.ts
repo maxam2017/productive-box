@@ -40,6 +40,7 @@ interface IRepo {
     name: repoInfo?.name,
     owner: repoInfo?.owner?.login,
   }));
+
   repoResponse = await githubQuery(ownedRepoQuery)
     .catch(error => console.error(`Unable to get the owned repo\n${error}`));
   repos.push(...repoResponse?.data?.user?.repositories?.nodes.map(repoInfo => ({

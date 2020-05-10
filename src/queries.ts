@@ -27,9 +27,9 @@ export const createOwnedRepoQuery = (username: string) => `
     user(login: "${username}") {
       repositories(last: 100, ownerAffiliations: OWNER, isFork: false) {
         nodes {
-	  name
-	  owner {
-	    login
+          name
+          owner {
+            login
 	  }
 	}
       }
