@@ -26,7 +26,7 @@ export const createContributedRepoQuery = (username: string) => `
 export const createCommittedDateQuery = (id: string, name: string, owner: string) => `
   query {
     repository(owner: "${owner}", name: "${name}") {
-      ref(qualifiedName: "master") {
+      defaultBranchRef {
         target {
           ... on Commit {
             history(first: 100, author: { id: "${id}" }) {
