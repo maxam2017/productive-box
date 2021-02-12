@@ -51,7 +51,7 @@ interface IRepo {
   let night = 0; // 0 - 6
 
   committedTimeResponseMap.forEach(committedTimeResponse => {
-    committedTimeResponse?.data?.repository?.ref?.target?.history?.edges.forEach(edge => {
+    committedTimeResponse?.data?.repository?.defaultBranchRef?.target?.history?.edges.forEach(edge => {
       const committedDate = edge?.node?.committedDate;
       const timeString = new Date(committedDate).toLocaleTimeString('en-US', { hour12: false, timeZone: process.env.TIMEZONE });
       const hour = +(timeString.split(':')[0]);
