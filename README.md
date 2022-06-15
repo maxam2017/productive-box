@@ -19,7 +19,7 @@
    Let's check out in gist!
 </p>
 
----
+---  
 
 > This project is inspired by an awesome pinned-gist project.<br/>Find more in https://github.com/matchai/awesome-pinned-gists
 
@@ -42,8 +42,8 @@ This project uses GitHub graphQL API to get the commit histories and write into 
 
    - **GIST_ID:** The ID portion from your gist url: `https://gist.github.com/maxam2017/`**`9842e074b8ee46aef76fd0d493bae0ed`**.
    - **TIMEZONE:** The timezone of your location, eg. `Asia/Taipei` for Taiwan, `America/New_York` for America in New York, etc.
-
-1. Go to the repo **Settings > Secrets**
+ 
+1. Go to the repo **Settings > Secrets****
 1. Add the following environment variables:
-   - **GH_TOKEN:** The GitHub token generated above.
+   - **GH_TOKEN:** The GitHub token generated above. 
 1. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
