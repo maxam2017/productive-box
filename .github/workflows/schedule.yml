@@ -10,10 +10,10 @@ jobs:
   update-gist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
       - name: Update gist
         uses: maxam2017/productive-box@master
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GIST_ID: 3b6ecf2621f492632018912a61025276
-          TIMEZONE: Europe/Berlin
+          GIST_ID: 9842e074b8ee46aef76fd0d493bae0ed
+          TIMEZONE: Asia/Taipei
