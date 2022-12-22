@@ -13,6 +13,9 @@
     "@octokit/rest": "^17.2.1",
     "dotenv": "^8.2.0"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/node": "^13.11.1",
