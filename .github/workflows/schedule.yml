@@ -4,6 +4,8 @@ on:
     types: [build-event]
   schedule:
     - cron: "0 0 * * *"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 jobs:
   update-gist:
     runs-on: ubuntu-latest
