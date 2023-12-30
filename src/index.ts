@@ -19,6 +19,20 @@ interface IRepo {
   owner: string;
 }
 
+interface RepoInfo {
+  name: string;
+  owner: {
+    login: string;
+  };
+  isFork: boolean;
+}
+
+interface Edge {
+  node: {
+    committedDate: string;
+  };
+}
+
 (async () => {
   /**
    * First, get user id
@@ -37,8 +51,8 @@ interface IRepo {
   );
   const repos: IRepo[] =
     repoResponse?.data?.user?.repositoriesContributedTo?.nodes
-      .filter(repoInfo => !repoInfo?.isFork)
-      .map(repoInfo => ({
+      .filter((repoInfo: RepoInfo) => !repoInfo?.isFork)
+      .map((repoInfo: RepoInfo) => ({
         name: repoInfo?.name,
         owner: repoInfo?.owner?.login,
       }));
@@ -61,7 +75,7 @@ interface IRepo {
 
   committedTimeResponseMap.forEach(committedTimeResponse => {
     committedTimeResponse?.data?.repository?.defaultBranchRef?.target?.history?.edges.forEach(
-      edge => {
+      (edge: Edge) => {
         const committedDate = edge?.node?.committedDate;
         const timeString = new Date(committedDate).toLocaleTimeString('en-US', {
           hour12: false,
