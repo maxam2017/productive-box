@@ -1,13 +1,13 @@
-import { resolve } from 'path';
-import { config } from 'dotenv';
 import { Octokit } from '@octokit/rest';
+import { config } from 'dotenv';
+import { resolve } from 'path';
 
-import githubQuery from './githubQuery';
 import generateBarChart from './generateBarChart';
+import githubQuery from './githubQuery';
 import {
-  userInfoQuery,
-  createContributedRepoQuery,
   createCommittedDateQuery,
+  createContributedRepoQuery,
+  userInfoQuery,
 } from './queries';
 /**
  * get environment variable
@@ -114,18 +114,28 @@ interface IRepo {
       gist_id: `${process.env.GIST_ID}`,
     })
     .catch(error => console.error(`Unable to update gist\n${error}`));
+
   if (!gist) return;
 
   const filename = Object.keys(gist.data.files)[0];
+  let greetingText = '';
+
+  if (morning > daytime && morning > evening && morning > night) {
+    greetingText = 'Early bird always the best 🐤';
+  } else if (daytime > evening && daytime > night) {
+    greetingText = "I'm a daytime enthusiast 🌞";
+  } else if (evening > night) {
+    greetingText = 'Sunset is always beautiful with you 🌇';
+  } else {
+    greetingText = "I'm a Moon explorer 🦉";
+  }
+
   await octokit.gists.update({
     gist_id: `${process.env.GIST_ID}`,
     files: {
       [filename]: {
-        filename:
-          morning + daytime > evening + night
-            ? "I'm an early 🐤"
-            : "I'm a night 🦉",
-        content: lines.join('\n'),
+        filename: 'VA Commit Stats',
+        content: lines.join('\n') + `\n${greetingText}`,
       },
     },
   });
