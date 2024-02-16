@@ -45,6 +45,14 @@ interface Edge {
     console.error(`Unable to get the contributed repo\n${error}`),
   );
 
+  /**
+   * If the token is invalid, stop the process
+   */
+  if (repoResponse.message === 'Bad credentials') {
+    console.error('Invalid GitHub token. Please renew the GH_TOKEN');
+    return;
+  }
+
   const repos: IRepo[] = repoResponse?.data?.user?.repositoriesContributedTo?.nodes
     .filter((repoInfo: RepoInfo) => !repoInfo?.isFork)
     .map((repoInfo: RepoInfo) => ({
