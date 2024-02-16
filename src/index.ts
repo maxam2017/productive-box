@@ -1,14 +1,10 @@
 import { resolve } from 'path';
-import { config } from 'dotenv';
 import { Octokit } from '@octokit/rest';
+import { config } from 'dotenv';
 
-import githubQuery from './githubQuery';
 import generateBarChart from './generateBarChart';
-import {
-  userInfoQuery,
-  createContributedRepoQuery,
-  createCommittedDateQuery,
-} from './queries';
+import githubQuery from './githubQuery';
+import { createCommittedDateQuery, createContributedRepoQuery, userInfoQuery } from './queries';
 /**
  * get environment variable
  */
@@ -37,7 +33,7 @@ interface Edge {
   /**
    * First, get user id
    */
-  const userResponse = await githubQuery(userInfoQuery).catch(error =>
+  const userResponse = await githubQuery(userInfoQuery).catch((error) =>
     console.error(`Unable to get username and id\n${error}`),
   );
   const { login: username, id } = userResponse?.data?.viewer ?? {};
@@ -46,25 +42,22 @@ interface Edge {
    * Second, get contributed repos
    */
   const contributedRepoQuery = createContributedRepoQuery(username);
-  const repoResponse = await githubQuery(contributedRepoQuery).catch(error =>
+  const repoResponse = await githubQuery(contributedRepoQuery).catch((error) =>
     console.error(`Unable to get the contributed repo\n${error}`),
   );
-  const repos: IRepo[] =
-    repoResponse?.data?.user?.repositoriesContributedTo?.nodes
-      .filter((repoInfo: RepoInfo) => !repoInfo?.isFork)
-      .map((repoInfo: RepoInfo) => ({
-        name: repoInfo?.name,
-        owner: repoInfo?.owner?.login,
-      }));
+  const repos: IRepo[] = repoResponse?.data?.user?.repositoriesContributedTo?.nodes
+    .filter((repoInfo: RepoInfo) => !repoInfo?.isFork)
+    .map((repoInfo: RepoInfo) => ({
+      name: repoInfo?.name,
+      owner: repoInfo?.owner?.login,
+    }));
 
   /**
    * Third, get commit time and parse into commit-time/hour diagram
    */
   const committedTimeResponseMap = await Promise.all(
-    repos.map(({ name, owner }) =>
-      githubQuery(createCommittedDateQuery(id, name, owner)),
-    ),
-  ).catch(error => console.error(`Unable to get the commit info\n${error}`));
+    repos.map(({ name, owner }) => githubQuery(createCommittedDateQuery(id, name, owner))),
+  ).catch((error) => console.error(`Unable to get the commit info\n${error}`));
 
   if (!committedTimeResponseMap) return;
 
@@ -73,25 +66,23 @@ interface Edge {
   let evening = 0; // 18 - 24
   let night = 0; // 0 - 6
 
-  committedTimeResponseMap.forEach(committedTimeResponse => {
-    committedTimeResponse?.data?.repository?.defaultBranchRef?.target?.history?.edges.forEach(
-      (edge: Edge) => {
-        const committedDate = edge?.node?.committedDate;
-        const timeString = new Date(committedDate).toLocaleTimeString('en-US', {
-          hour12: false,
-          timeZone: process.env.TIMEZONE,
-        });
-        const hour = +timeString.split(':')[0];
+  committedTimeResponseMap.forEach((committedTimeResponse) => {
+    committedTimeResponse?.data?.repository?.defaultBranchRef?.target?.history?.edges.forEach((edge: Edge) => {
+      const committedDate = edge?.node?.committedDate;
+      const timeString = new Date(committedDate).toLocaleTimeString('en-US', {
+        hour12: false,
+        timeZone: process.env.TIMEZONE,
+      });
+      const hour = +timeString.split(':')[0];
 
-        /**
-         * voting and counting
-         */
-        if (hour >= 6 && hour < 12) morning++;
-        if (hour >= 12 && hour < 18) daytime++;
-        if (hour >= 18 && hour < 24) evening++;
-        if (hour >= 0 && hour < 6) night++;
-      },
-    );
+      /**
+       * voting and counting
+       */
+      if (hour >= 6 && hour < 12) morning++;
+      if (hour >= 12 && hour < 18) daytime++;
+      if (hour >= 18 && hour < 24) evening++;
+      if (hour >= 0 && hour < 6) night++;
+    });
   });
 
   /**
@@ -127,7 +118,7 @@ interface Edge {
     .get({
       gist_id: `${process.env.GIST_ID}`,
     })
-    .catch(error => console.error(`Unable to update gist\n${error}`));
+    .catch((error) => console.error(`Unable to update gist\n${error}`));
   if (!gist) return;
 
   const filename = Object.keys(gist.data.files)[0];
@@ -135,10 +126,7 @@ interface Edge {
     gist_id: `${process.env.GIST_ID}`,
     files: {
       [filename]: {
-        filename:
-          morning + daytime > evening + night
-            ? "I'm an early 🐤"
-            : "I'm a night 🦉",
+        filename: morning + daytime > evening + night ? "I'm an early 🐤" : "I'm a night 🦉",
         content: lines.join('\n'),
       },
     },
