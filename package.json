@@ -20,9 +20,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
+    "@semantic-release/git": "^10.0.1",
     "@types/dotenv": "^8.2.0",
     "@types/node": "^18.18.7",
     "@vercel/ncc": "^0.38.1",
+    "semantic-release": "^23.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
