@@ -16,7 +16,7 @@
     "dotenv": "^16.4.4"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",
