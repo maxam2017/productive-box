@@ -7,17 +7,17 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
-      fail-fast: false
-
+        node_version: [20.x]
     steps:
-      - id: checkout
-        name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
       - id: install-deps
         name: Install dependencies
         run: |
