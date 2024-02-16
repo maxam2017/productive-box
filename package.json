@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc src/index.ts --outDir dist && ncc build dist/index.js --minify && find dist/ -type f -not -name 'index.js' -delete",
-    "lint": "eslint src/ --ext .ts"
+    "lint": "biome lint"
   },
   "dependencies": {
     "@octokit/rest": "^17.2.1",
@@ -17,20 +17,15 @@
     "node": ">=16.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
     "@types/dotenv": "^8.2.0",
     "@types/node": "^13.11.1",
     "@types/node-fetch": "^2.5.6",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "@typescript-eslint/parser": "^6.4.1",
     "@zeit/ncc": "^0.22.1",
-    "eslint": "^8.48.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.3",
-    "prettier": "^3.0.2",
     "ts-node": "^10.9.1",
-    "typescript": "5.1.6"
+    "typescript": "^5.3.3"
   },
   "husky": {
     "hooks": {
@@ -38,8 +33,8 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
-      "yarn lint --fix"
+    "*.ts,*json": [
+      "yarn lint"
     ]
   }
 }
