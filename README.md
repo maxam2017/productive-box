@@ -58,4 +58,9 @@ This project uses GitHub graphQL API to get the commit histories and write into 
    | Repository Secrets | **GIST_ID** | The ID portion from your gist URL, e.g., `9842e074b8ee46aef76fd0d493bae0ed`. |
    | Repository Variable | **TIMEZONE** | The timezone of your location, e.g., `Asia/Taipei` for Taiwan, `America/New_York` for America in New York, etc. |
 
+   Below is the final screenshot: (Click the image for a clearer view.)
+
+   |Repository Secret|Repository Variable|
+   |:-:|:-:|
+   |<img width="500" alt="" src="https://github.com/maxam2017/productive-box/assets/25841814/53a1ddfa-17f3-40c0-b8db-afd674d616e6">|<img width="500" src="https://github.com/maxam2017/productive-box/assets/25841814/836f8374-ae13-4617-9e18-62ed3eb8e179">|
 1. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
