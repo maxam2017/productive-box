@@ -19,6 +19,9 @@
       },
       "style": {
         "useTemplate": "warn"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn"
       }
     }
   },

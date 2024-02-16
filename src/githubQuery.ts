@@ -1,6 +1,4 @@
-import fetch from 'node-fetch';
-
-export default async function (query: string) {
+export default async function (query: string): Promise<any> {
   const res = await fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {

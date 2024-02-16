@@ -1,14 +1,13 @@
-import { resolve } from 'path';
 import { Octokit } from '@octokit/rest';
 import { config } from 'dotenv';
 
-import generateBarChart from './generateBarChart';
-import githubQuery from './githubQuery';
-import { createCommittedDateQuery, createContributedRepoQuery, userInfoQuery } from './queries';
+import generateBarChart from './generateBarChart.js';
+import githubQuery from './githubQuery.js';
+import { createCommittedDateQuery, createContributedRepoQuery, userInfoQuery } from './queries.js';
 /**
  * get environment variable
  */
-config({ path: resolve(__dirname, '../.env') });
+config({ path: ['.env'] });
 
 interface IRepo {
   name: string;
@@ -45,6 +44,7 @@ interface Edge {
   const repoResponse = await githubQuery(contributedRepoQuery).catch((error) =>
     console.error(`Unable to get the contributed repo\n${error}`),
   );
+
   const repos: IRepo[] = repoResponse?.data?.user?.repositoriesContributedTo?.nodes
     .filter((repoInfo: RepoInfo) => !repoInfo?.isFork)
     .map((repoInfo: RepoInfo) => ({
@@ -120,6 +120,11 @@ interface Edge {
     })
     .catch((error) => console.error(`Unable to update gist\n${error}`));
   if (!gist) return;
+
+  if (!gist.data.files) {
+    console.error('No file found in the gist');
+    return;
+  }
 
   const filename = Object.keys(gist.data.files)[0];
   await octokit.gists.update({
