@@ -144,4 +144,6 @@ interface Edge {
       },
     },
   });
+
+  console.log('Success to update the gist 🎉');
 })();
