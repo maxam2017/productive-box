@@ -23,11 +23,7 @@ export const createContributedRepoQuery = (username: string) => `
   }
 `;
 
-export const createCommittedDateQuery = (
-  id: string,
-  name: string,
-  owner: string,
-) => `
+export const createCommittedDateQuery = (id: string, name: string, owner: string) => `
   query {
     repository(owner: "${owner}", name: "${name}") {
       defaultBranchRef {
