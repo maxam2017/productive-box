@@ -1,3 +1,12 @@
+> [!CAUTION]
+> If you upgrade to v1.1.5+, please remember to:
+>
+> 1. move the **GIST ID** to the Secret
+> 2. move the **TIMEZONE** to the Repository variable
+>    For details, refer to the third point in [Project Setup](https://github.com/maxam2017/productive-box/tree/master?tab=readme-ov-file#project-setup).
+>
+> p.s. when you see this notice in the README of your forked repository, it means you have upgraded to v1.1.5
+
 <p align="center">
   <a href="http://lovera.maxam.now.sh/">
     <img src="https://user-images.githubusercontent.com/25841814/79395484-5081ae80-7fac-11ea-9e27-ac91472e31dd.png" alt="screenshot" width="500">
@@ -25,6 +34,7 @@
 > Find more in https://github.com/matchai/awesome-pinned-gists
 
 ## Overview
+
 This project uses GitHub graphQL API to get the commit histories and write into the gist by [rest.js](https://github.com/octokit/rest.js#readme)
 
 ## Setup
@@ -40,10 +50,12 @@ This project uses GitHub graphQL API to get the commit histories and write into 
 
 1. Fork this repo
 1. Open the "Actions" tab of your fork and click the "enable" button
-1. Go to the repo **Settings > Secrets**, add the following environment variables:
-   - **GH_TOKEN:** The GitHub token generated above.
-   - **GIST_ID:** The ID portion from your gist URL, e.g. `https://gist.github.com/maxam2017/`**`9842e074b8ee46aef76fd0d493bae0ed`**.
-1. (Optional) Edit the [environment variable](https://github.com/maxam2017/productive-box/blob/master/.github/workflows/schedule.yml#L18)
-   in `.github/workflows/schedule.yml`:
-   - **TIMEZONE:** The timezone of your location, e.g. `Asia/Taipei` for Taiwan, `America/New_York` for America in New York, etc.
+1. Go to the repo **Settings > Secrets and variables** > **Actions**,
+   add the following secrets / variables:
+   | Type | Name | Description |
+   |---------------------------------|--------------------|---------------------------------------------------------------|
+   | Repository Secrets | **GH_TOKEN** | The GitHub token generated above. |
+   | Repository Secrets | **GIST_ID** | The ID portion from your gist URL, e.g., `9842e074b8ee46aef76fd0d493bae0ed`. |
+   | Repository Variable | **TIMEZONE** | The timezone of your location, e.g., `Asia/Taipei` for Taiwan, `America/New_York` for America in New York, etc. |
+
 1. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
