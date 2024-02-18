@@ -63,4 +63,10 @@ This project uses GitHub graphQL API to get the commit histories and write into 
    |Repository Secret|Repository Variable|
    |:-:|:-:|
    |<img width="500" alt="" src="https://github.com/maxam2017/productive-box/assets/25841814/53a1ddfa-17f3-40c0-b8db-afd674d616e6">|<img width="500" src="https://github.com/maxam2017/productive-box/assets/25841814/836f8374-ae13-4617-9e18-62ed3eb8e179">|
+1. Manually run the workflow for the first time or wait for the scheduled run. (The workflow will run every day at 00:00 UTC.)
 1. [Pin the newly created Gist](https://help.github.com/en/github/setting-up-and-managing-your-github-profile/pinning-items-to-your-profile)
+
+### How to run the workflow manually
+1. Go to the "Actions" tab on your fork
+1. Select the "Update gist" workflow
+1. Click the "Run workflow" button
