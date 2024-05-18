@@ -1,39 +1,31 @@
 {
   "name": "productive-box",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Are you an early 🐤 or a night 🦉? Let's check out in gist",
   "author": "maxam2017",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "dev": "ts-node src/index.ts",
-    "build": "tsc src/index.ts --outDir dist && ncc build dist/index.js --minify && find dist/ -type f -not -name 'index.js' -delete",
-    "lint": "eslint src/ --ext .ts"
+    "preinstall": "./preinstall.sh",
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "build": "tsc && ncc build dist/index.js --minify && find dist/ -type f -not -name 'index.js' -delete",
+    "lint": "biome lint"
   },
   "dependencies": {
-    "@octokit/rest": "^17.2.1",
-    "dotenv": "^8.2.0"
+    "@octokit/rest": "^20.0.2",
+    "dotenv": "^16.4.4"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "@semantic-release/git": "^10.0.1",
     "@types/dotenv": "^8.2.0",
-    "@types/node": "^13.11.1",
-    "@types/node-fetch": "^2.5.6",
-    "@typescript-eslint/eslint-plugin": "^2.28.0",
-    "@typescript-eslint/parser": "^2.28.0",
-    "@zeit/ncc": "^0.22.1",
-    "eslint": "^6.8.0",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.1.3",
-    "ts-node": "^8.8.2",
-    "typescript": "^3.8.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.ts": [
-      "yarn lint --fix"
-    ]
+    "@types/node": "^18.18.7",
+    "@vercel/ncc": "^0.38.1",
+    "semantic-release": "^23.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

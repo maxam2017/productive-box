@@ -1,37 +1,61 @@
-import { resolve } from 'path';
-import { config } from 'dotenv';
 import { Octokit } from '@octokit/rest';
+import { config } from 'dotenv';
 
-import githubQuery from './githubQuery';
-import generateBarChart from './generateBarChart';
-import { userInfoQuery, createContributedRepoQuery, createCommittedDateQuery } from './queries';
+import generateBarChart from './generateBarChart.js';
+import githubQuery from './githubQuery.js';
+import { createCommittedDateQuery, createContributedRepoQuery, userInfoQuery } from './queries.js';
 /**
  * get environment variable
  */
-config({ path: resolve(__dirname, '../.env') });
+config({ path: ['.env'] });
 
 interface IRepo {
   name: string;
   owner: string;
 }
 
-(async() => {
+interface RepoInfo {
+  name: string;
+  owner: {
+    login: string;
+  };
+  isFork: boolean;
+}
+
+interface Edge {
+  node: {
+    committedDate: string;
+  };
+}
+
+(async () => {
   /**
    * First, get user id
    */
-  const userResponse = await githubQuery(userInfoQuery)
-    .catch(error => console.error(`Unable to get username and id\n${error}`));
-  const { login: username, id } = userResponse?.data?.viewer;
+  const userResponse = await githubQuery(userInfoQuery).catch((error) =>
+    console.error(`Unable to get username and id\n${error}`),
+  );
+  const { login: username, id } = userResponse?.data?.viewer ?? {};
 
   /**
    * Second, get contributed repos
    */
   const contributedRepoQuery = createContributedRepoQuery(username);
-  const repoResponse = await githubQuery(contributedRepoQuery)
-    .catch(error => console.error(`Unable to get the contributed repo\n${error}`));
+  const repoResponse = await githubQuery(contributedRepoQuery).catch((error) =>
+    console.error(`Unable to get the contributed repo\n${error}`),
+  );
+
+  /**
+   * If the token is invalid, stop the process
+   */
+  if (repoResponse.message === 'Bad credentials') {
+    console.error('Invalid GitHub token. Please renew the GH_TOKEN');
+    return;
+  }
+
   const repos: IRepo[] = repoResponse?.data?.user?.repositoriesContributedTo?.nodes
-    .filter(repoInfo => (!repoInfo?.isFork))
-    .map(repoInfo => ({
+    .filter((repoInfo: RepoInfo) => !repoInfo?.isFork)
+    .map((repoInfo: RepoInfo) => ({
       name: repoInfo?.name,
       owner: repoInfo?.owner?.login,
     }));
@@ -40,8 +64,8 @@ interface IRepo {
    * Third, get commit time and parse into commit-time/hour diagram
    */
   const committedTimeResponseMap = await Promise.all(
-    repos.map(({name, owner}) => githubQuery(createCommittedDateQuery(id, name, owner)))
-  ).catch(error => console.error(`Unable to get the commit info\n${error}`));
+    repos.map(({ name, owner }) => githubQuery(createCommittedDateQuery(id, name, owner))),
+  ).catch((error) => console.error(`Unable to get the commit info\n${error}`));
 
   if (!committedTimeResponseMap) return;
 
@@ -50,11 +74,14 @@ interface IRepo {
   let evening = 0; // 18 - 24
   let night = 0; // 0 - 6
 
-  committedTimeResponseMap.forEach(committedTimeResponse => {
-    committedTimeResponse?.data?.repository?.defaultBranchRef?.target?.history?.edges.forEach(edge => {
+  committedTimeResponseMap.forEach((committedTimeResponse) => {
+    committedTimeResponse?.data?.repository?.defaultBranchRef?.target?.history?.edges.forEach((edge: Edge) => {
       const committedDate = edge?.node?.committedDate;
-      const timeString = new Date(committedDate).toLocaleTimeString('en-US', { hour12: false, timeZone: process.env.TIMEZONE });
-      const hour = +(timeString.split(':')[0]);
+      const timeString = new Date(committedDate).toLocaleTimeString('en-US', {
+        hour12: false,
+        timeZone: process.env.TIMEZONE,
+      });
+      const hour = +timeString.split(':')[0];
 
       /**
        * voting and counting
@@ -80,7 +107,7 @@ interface IRepo {
   ];
 
   const lines = oneDay.reduce((prev, cur) => {
-    const percent = cur.commits / sum * 100;
+    const percent = (cur.commits / sum) * 100;
     const line = [
       `${cur.label}`.padEnd(10),
       `${cur.commits.toString().padStart(5)} commits`.padEnd(14),
@@ -89,26 +116,34 @@ interface IRepo {
     ];
 
     return [...prev, line.join(' ')];
-  }, []);
+  }, [] as string[]);
 
   /**
    * Finally, write into gist
    */
   const octokit = new Octokit({ auth: `token ${process.env.GH_TOKEN}` });
-  const gist = await octokit.gists.get({
-    gist_id: process.env.GIST_ID
-  }).catch(error => console.error(`Unable to update gist\n${error}`));
+  const gist = await octokit.gists
+    .get({
+      gist_id: `${process.env.GIST_ID}`,
+    })
+    .catch((error) => console.error(`Unable to update gist\n${error}`));
   if (!gist) return;
+
+  if (!gist.data.files) {
+    console.error('No file found in the gist');
+    return;
+  }
 
   const filename = Object.keys(gist.data.files)[0];
   await octokit.gists.update({
-    gist_id: process.env.GIST_ID,
+    gist_id: `${process.env.GIST_ID}`,
     files: {
       [filename]: {
-        // eslint-disable-next-line quotes
-        filename: (morning + daytime) > (evening + night) ? "I'm an early 🐤" : "I'm a night 🦉",
+        filename: morning + daytime > evening + night ? "I'm an early 🐤" : "I'm a night 🦉",
         content: lines.join('\n'),
       },
     },
   });
+
+  console.log('Success to update the gist 🎉');
 })();

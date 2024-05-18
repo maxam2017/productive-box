@@ -4,14 +4,15 @@ on:
     types: [build-event]
   schedule:
     - cron: "0 0 * * *"
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 jobs:
   update-gist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Update gist
         uses: maxam2017/productive-box@master
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GIST_ID: f482521bf654778a045a7446366d24e2
-          TIMEZONE: Asia/Famagusta 
+          GIST_ID: ${{ secrets.GIST_ID }}
+          TIMEZONE: ${{ vars.TIMEZONE }}
